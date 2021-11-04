@@ -32,11 +32,9 @@ const upload = multer({ storage: multerStorage });
 app.post("/api/uploadFile", upload.single("myFile"), async (req, res) => {
   try {
     console.log(req);
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
+    res.setHeader("Access-Control-Allow-Credentials", true);
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
     const newFile = await File.create({
       name: req.file.filename,
     });
@@ -55,11 +53,8 @@ app.post("/api/uploadFile", upload.single("myFile"), async (req, res) => {
 
 app.get("/api/getFiles", async (req, res) => {
   try {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
+    res.setHeader("Access-Control-Allow-Credentials", true);
+    res.setHeader("Access-Control-Allow-Origin", "*");
     const files = await File.find();
     res.status(200).json({
       status: "success",
@@ -77,11 +72,8 @@ app.get("/api/download/:id", async (req, res) => {
     console.log(res);
     const fileName = req.params.id;
     console.log(fileName);
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
+    res.setHeader("Access-Control-Allow-Credentials", true);
+    res.setHeader("Access-Control-Allow-Origin", "*");
     const file = await File.find({ _id: fileName });
     res.status(200).json({
       status: "success",
@@ -95,11 +87,8 @@ app.get("/api/download/:id", async (req, res) => {
   }
 });
 app.use("/", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.status(200).render("index");
 });
 
